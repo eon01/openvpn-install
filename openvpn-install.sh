@@ -40,7 +40,10 @@ fi
 
 newclient () {
 	# Generates the client.ovpn
-	cp /usr/share/doc/openvpn*/*ample*/sample-config-files/client.conf ~/$1.ovpn
+	#If the client is using an Ubuntu based distro, he should add some lines
+	echo "#Please uncomment those lines if you're running Ubuntu/LinuxMint or any distribution based on Ubuntu" >>  ~/$1.ovpn
+	echo -e "#script-security 2\n#up /etc/openvpn/update-resolv-conf\n#down /etc/openvpn/update-resolv-conf" >> ~/$1.ovpn
+	cat /usr/share/doc/openvpn*/*ample*/sample-config-files/client.conf >> ~/$1.ovpn
 	sed -i "/ca ca.crt/d" ~/$1.ovpn
 	sed -i "/cert client.crt/d" ~/$1.ovpn
 	sed -i "/key client.key/d" ~/$1.ovpn
